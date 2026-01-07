@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project Hub</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <nav>
+        <div class="logo">PROJECT HUB.</div>
+        <ul>
+            <li><a href="#about">About</a></li>
+            <li><a href="#projects">Projects</a></li>
+            <li><a href="#custom-project">Need a Developer?</a></li>
+        </ul>
+    </nav>
+
+    <header class="hero">
+        <div id="canvas-container"></div>
+        <div class="hero-content">
+            <h1>Premium Digital <br>Projects.</h1>
+            <p>Curated websites and mobile applications tailored for modern needs.</p>
+            <a href="#projects" class="btn btn-primary">Explore Hub</a>
+        </div>
+    </header>
+
+    <section id="about" class="about-section">
+        <div class="container about-grid">
+            <div class="about-image-wrapper">
+                <img src="profile.png" alt="Profile Image" class="about-img">
+            </div>
+            <div class="about-text">
+                <h2>The Creator.</h2>
+                <p class="bio">Hi, I'm John Lawrence J. Cano. I'm a passionate developer focused on crafting clean, functional, and aesthetically pleasing digital experiences. This hub is a collection of my best personal projects, available for acquisition to kickstart your next venture.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="projects" class="projects-section">
+        <div class="container">
+            <div class="section-header">
+                <h2>The Collection.</h2>
+                <div class="filter-buttons">
+                    <button class="filter-btn active" data-filter="all">All</button>
+                    <button class="filter-btn" data-filter="website">Websites</button>
+                    <button class="filter-btn" data-filter="mobile">Mobile Apps</button>
+                </div>
+            </div>
+
+            <div class="project-grid" id="projects-container">
+                <!-- Projects will be loaded dynamically from Firebase -->
+                <div class="loading-projects">
+                    <div class="spinner"></div>
+                    <p>Loading projects...</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="custom-project" class="custom-project-section">
+        <div id="custom-canvas-container"></div>
+        <div class="container">
+            <div class="custom-project-content">
+                <div class="custom-project-text">
+                    <h2>Need a Developer?</h2>
+                    <p class="lead">Have a unique project in mind? Let's build something amazing together.</p>
+                    <p>Whether you need a custom web application, mobile app, or a complete digital solution, I can help bring your vision to life with cutting-edge technology and clean code.</p>
+                    <ul class="features-list">
+                        <li><i class="fas fa-check-circle"></i> Custom Web Applications</li>
+                        <li><i class="fas fa-check-circle"></i> Mobile App Development</li>
+                        <li><i class="fas fa-check-circle"></i> E-commerce Solutions</li>
+                        <li><i class="fas fa-check-circle"></i> API Integration & Development</li>
+                        <li><i class="fas fa-check-circle"></i> Database Design & Optimization</li>
+                        <li><i class="fas fa-check-circle"></i> UI/UX Design</li>
+                    </ul>
+                </div>
+                <div class="custom-project-cta">
+                    <div class="cta-card">
+                        <div class="cta-icon">
+                            <i class="fas fa-rocket"></i>
+                        </div>
+                        <h3>Start Your Project</h3>
+                        <p>Transform your ideas into reality with professional development services</p>
+                        <button class="btn btn-primary btn-large" onclick="showCustomProjectModal()">
+                            Get Started <i class="fas fa-arrow-right"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <p>© 2024 Project Hub. All rights reserved.</p>
+    </footer>
+
+    <!-- Security Configuration -->
+    <script src="security-config.js"></script>
+    
+    <!-- Supabase SDK -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

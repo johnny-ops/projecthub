@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project Hub - Admin Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="admin-style.css">
+</head>
+<body>
+    <div class="admin-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h2><i class="fas fa-cog"></i> Admin Panel</h2>
+            </div>
+            <nav class="sidebar-nav">
+                <ul>
+                    <li><a href="#dashboard" class="nav-link active" data-section="dashboard">
+                        <i class="fas fa-chart-bar"></i> Dashboard
+                    </a></li>
+                    <li><a href="#projects" class="nav-link" data-section="projects">
+                        <i class="fas fa-folder"></i> Projects
+                    </a></li>
+                    <li><a href="#add-project" class="nav-link" data-section="add-project">
+                        <i class="fas fa-plus"></i> Add Project
+                    </a></li>
+                    <li><a href="#inquiries" class="nav-link" data-section="inquiries">
+                        <i class="fas fa-envelope"></i> Inquiries
+                    </a></li>
+                    <li><a href="#settings" class="nav-link" data-section="settings">
+                        <i class="fas fa-cog"></i> Settings
+                    </a></li>
+                </ul>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <header class="top-bar">
+                <h1 id="page-title">Dashboard</h1>
+                <div class="user-info">
+                    <span id="user-email">Loading...</span>
+                    <button id="logout-btn" class="btn btn-secondary">
+                        <i class="fas fa-sign-out-alt"></i> Logout
+                    </button>
+                </div>
+            </header>
+
+            <!-- Dashboard Section -->
+            <section id="dashboard-section" class="content-section active">
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-folder"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3 id="total-projects">0</h3>
+                            <p>Total Projects</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-globe"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3 id="website-projects">0</h3>
+                            <p>Websites</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-mobile-alt"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3 id="mobile-projects">0</h3>
+                            <p>Mobile Apps</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-envelope"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3 id="total-inquiries">0</h3>
+                            <p>Total Inquiries</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="recent-activity">
+                    <h3>Recent Activity</h3>
+                    <div id="activity-list" class="activity-list">
+                        <!-- Activity items will be populated here -->
+                    </div>
+                </div>
+            </section>
+
+            <!-- Projects Section -->
+            <section id="projects-section" class="content-section">
+                <div class="section-header">
+                    <h3>Manage Projects</h3>
+                    <div class="filter-controls">
+                        <select id="category-filter" class="filter-select">
+                            <option value="all">All Categories</option>
+                            <option value="website">Websites</option>
+                            <option value="mobile">Mobile Apps</option>
+                        </select>
+                        <button id="refresh-projects" class="btn btn-primary">
+                            <i class="fas fa-sync"></i> Refresh
+                        </button>
+                    </div>
+                </div>
+                <div id="projects-grid" class="projects-grid">
+                    <!-- Projects will be populated here -->
+                </div>
+            </section>
+
+            <!-- Add Project Section -->
+            <section id="add-project-section" class="content-section">
+                <div class="form-container">
+                    <h3>Add New Project</h3>
+                    <form id="add-project-form" class="project-form">
+                        <div class="form-group">
+                            <label for="project-title">Project Title</label>
+                            <input type="text" id="project-title" name="title" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="project-category">Category</label>
+                            <select id="project-category" name="category" required>
+                                <option value="">Select Category</option>
+                                <option value="website">Website</option>
+                                <option value="mobile">Mobile App</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="project-description">Description</label>
+                            <textarea id="project-description" name="description" rows="4" required></textarea>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="project-image">Project Image</label>
+                            <input type="file" id="project-image" name="image" accept="image/*" required>
+                            <small>Upload an image file (JPG, PNG, WebP)</small>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="project-technologies">Technologies Used</label>
+                            <input type="text" id="project-technologies" name="technologies" placeholder="React, Node.js, MongoDB">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="project-features">Features (one per line)</label>
+                            <textarea id="project-features" name="features" rows="4" placeholder="User authentication&#10;Real-time updates&#10;Responsive design"></textarea>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="project-pdf-images">PDF Images URLs (one per line)</label>
+                            <textarea id="project-pdf-images" name="pdf_images" rows="3" placeholder="https://example.com/screenshot1.jpg&#10;https://example.com/screenshot2.jpg"></textarea>
+                            <small style="color: #94a3b8; font-size: 0.85rem;">Add multiple image URLs for PDF documentation</small>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="project-pdf-content">Additional PDF Content</label>
+                            <textarea id="project-pdf-content" name="pdf_content" rows="4" placeholder="Additional details for PDF documentation..."></textarea>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="project-demo-url">Demo URL (Optional)</label>
+                            <input type="url" id="project-demo-url" name="demo_url" placeholder="https://demo.example.com">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="project-github-url">GitHub URL (Optional)</label>
+                            <input type="url" id="project-github-url" name="github_url" placeholder="https://github.com/username/repo">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="project-status">Status</label>
+                            <select id="project-status" name="status" required>
+                                <option value="available">Available</option>
+                                <option value="sold">Sold</option>
+                                <option value="pending">Pending</option>
+                            </select>
+                        </div>
+                        
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-plus"></i> Add Project
+                        </button>
+                    </form>
+                </div>
+            </section>
+
+            <!-- Inquiries Section -->
+            <section id="inquiries-section" class="content-section">
+                <div class="section-header">
+                    <h3>Customer Inquiries</h3>
+                    <div class="filter-controls">
+                        <select id="inquiry-status-filter" class="filter-select">
+                            <option value="all">All Status</option>
+                            <option value="new">New</option>
+                            <option value="contacted">Contacted</option>
+                            <option value="closed">Closed</option>
+                        </select>
+                        <button id="refresh-inquiries" class="btn btn-primary">
+                            <i class="fas fa-sync"></i> Refresh
+                        </button>
+                    </div>
+                </div>
+                <div id="inquiries-list" class="inquiries-list">
+                    <!-- Inquiries will be populated here -->
+                </div>
+            </section>
+
+            <!-- Categories Section -->
+            <section id="categories-section" class="content-section">
+                <h3>Manage Categories</h3>
+                <div class="categories-list">
+                    <div class="category-item">
+                        <span class="category-name">Websites</span>
+                        <span class="category-count" id="websites-count">0</span>
+                    </div>
+                    <div class="category-item">
+                        <span class="category-name">Mobile Apps</span>
+                        <span class="category-count" id="mobile-count">0</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Settings Section -->
+            <section id="settings-section" class="content-section">
+                <h3>Settings</h3>
+                <div class="settings-grid">
+                    <div class="setting-item">
+                        <label for="site-title">Site Title</label>
+                        <input type="text" id="site-title" value="PROJECT HUB">
+                    </div>
+                    <div class="setting-item">
+                        <label for="contact-email">Contact Email</label>
+                        <input type="email" id="contact-email" placeholder="your@email.com">
+                    </div>
+                    <div class="setting-item">
+                        <label for="facebook-username">Facebook Username</label>
+                        <input type="text" id="facebook-username" placeholder="your.facebook.username">
+                    </div>
+                    <button id="save-settings" class="btn btn-primary">
+                        <i class="fas fa-save"></i> Save Settings
+                    </button>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Loading Overlay -->
+    <div id="loading-overlay" class="loading-overlay">
+        <div class="spinner"></div>
+        <p>Loading...</p>
+    </div>
+
+    <!-- Security Configuration -->
+    <script src="security-config.js"></script>
+    
+    <!-- Supabase SDK -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    
+    <script src="admin-script.js"></script>
+</body>
+</html>

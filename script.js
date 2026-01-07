@@ -44,7 +44,39 @@ document.addEventListener('DOMContentLoaded', () => {
     initProjectFilters();
     loadProjects();
     loadSettings();
+    initMobileMenu();
 });
+
+// ==========================================
+// MOBILE HAMBURGER MENU
+// ==========================================
+function initMobileMenu() {
+    const hamburger = document.querySelector('.hamburger');
+    const navMenu = document.querySelector('.nav-menu');
+    
+    if (!hamburger || !navMenu) return;
+    
+    hamburger.addEventListener('click', () => {
+        hamburger.classList.toggle('active');
+        navMenu.classList.toggle('active');
+    });
+    
+    // Close menu when clicking on a nav link
+    document.querySelectorAll('.nav-menu li a').forEach(link => {
+        link.addEventListener('click', () => {
+            hamburger.classList.remove('active');
+            navMenu.classList.remove('active');
+        });
+    });
+    
+    // Close menu when clicking outside
+    document.addEventListener('click', (e) => {
+        if (!hamburger.contains(e.target) && !navMenu.contains(e.target)) {
+            hamburger.classList.remove('active');
+            navMenu.classList.remove('active');
+        }
+    });
+}
 
 // ==========================================
 // THREE.JS FOR CUSTOM PROJECT SECTION
@@ -65,57 +97,69 @@ function initCustomSectionThreeJS() {
     renderer.setClearColor(0x000000, 0);
     container.appendChild(renderer.domElement);
 
-    // Create 3D cubes
-    const cubes = [];
-    const cubeGeometry = new THREE.BoxGeometry(0.5, 0.5, 0.5);
+    // Create Particles (same as hero section)
+    const particlesGeometry = new THREE.BufferGeometry();
+    const particlesCount = 100; // Slightly fewer particles for custom section
     
-    for (let i = 0; i < 20; i++) {
-        const material = new THREE.MeshBasicMaterial({
-            color: 0xffffff, // Pure white for black & white theme
-            wireframe: true,
-            transparent: true,
-            opacity: 0.8 // Increased opacity for better visibility
-        });
-        
-        const cube = new THREE.Mesh(cubeGeometry, material);
-        cube.position.set(
-            (Math.random() - 0.5) * 10,
-            (Math.random() - 0.5) * 10,
-            (Math.random() - 0.5) * 10
-        );
-        cube.rotation.set(
-            Math.random() * Math.PI,
-            Math.random() * Math.PI,
-            Math.random() * Math.PI
-        );
-        
-        cubes.push(cube);
-        scene.add(cube);
+    const posArray = new Float32Array(particlesCount * 3);
+    
+    for(let i = 0; i < particlesCount * 3; i++) {
+        // Generate random positions between -5 and 5
+        posArray[i] = (Math.random() - 0.5) * 8; 
     }
+    
+    particlesGeometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
 
-    camera.position.z = 5;
-
-    // Mouse interaction
-    let mouseX = 0;
-    let mouseY = 0;
-
-    document.addEventListener('mousemove', (event) => {
-        mouseX = (event.clientX / window.innerWidth) * 2 - 1;
-        mouseY = -(event.clientY / window.innerHeight) * 2 + 1;
+    // Materials (White particles and lines)
+    const material = new THREE.PointsMaterial({
+        size: 0.08,
+        color: 0xffffff,
+        transparent: true,
+        opacity: 1.0
     });
 
-    // Animation
+    const particlesMesh = new THREE.Points(particlesGeometry, material);
+    scene.add(particlesMesh);
+
+    // Adding subtle lines connecting particles for a network look
+    const lineMaterial = new THREE.LineBasicMaterial({ 
+        color: 0xffffff, 
+        transparent: true, 
+        opacity: 0.3
+    });
+    const lineMesh = new THREE.LineLoop(particlesGeometry, lineMaterial);
+    scene.add(lineMesh);
+
+    camera.position.z = 3;
+
+    // Mouse interaction variables
+    let mouseX = 0;
+    let mouseY = 0;
+    let targetX = 0;
+    let targetY = 0;
+    const windowHalfX = width / 2;
+    const windowHalfY = height / 2;
+
+    document.addEventListener('mousemove', onDocumentMouseMove);
+
+    function onDocumentMouseMove(event) {
+        mouseX = (event.clientX - windowHalfX);
+        mouseY = (event.clientY - windowHalfY);
+    }
+
+    // Animation Loop
     function animate() {
         requestAnimationFrame(animate);
+     
+        // Smooth mouse movement tracking
+        targetX = mouseX * 0.001;
+        targetY = mouseY * 0.001;
+
+        particlesMesh.rotation.y += 0.001; // Constant slow rotation
+        particlesMesh.rotation.x += (targetY - particlesMesh.rotation.x) * 0.05;
+        particlesMesh.rotation.y += (targetX - particlesMesh.rotation.y) * 0.05;
         
-        cubes.forEach((cube, index) => {
-            cube.rotation.x += 0.001 + index * 0.0001;
-            cube.rotation.y += 0.001 + index * 0.0001;
-            
-            // Mouse interaction
-            cube.position.x += (mouseX * 0.5 - cube.position.x) * 0.01;
-            cube.position.y += (mouseY * 0.5 - cube.position.y) * 0.01;
-        });
+        lineMesh.rotation.copy(particlesMesh.rotation);
 
         renderer.render(scene, camera);
     }
@@ -124,12 +168,14 @@ function initCustomSectionThreeJS() {
 
     // Handle resize
     window.addEventListener('resize', () => {
-        width = container.clientWidth;
-        height = container.clientHeight;
+        width = container.clientWidth || window.innerWidth;
+        height = container.clientHeight || window.innerHeight;
         camera.aspect = width / height;
         camera.updateProjectionMatrix();
         renderer.setSize(width, height);
     });
+    
+    console.log('Custom section Three.js initialized with', particlesCount, 'particles');
 }
 
 
